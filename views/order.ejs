@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Order details | The Bookshop</title><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script></head>
+<body class="min-h-screen bg-[#fbf8f2] text-[#25372d]">
+    <%- include('includes/nav.ejs') %>
+    <main class="mx-auto max-w-3xl px-5 py-12">
+        <div class="rounded-3xl bg-white p-7 shadow-sm sm:p-10">
+            <p class="text-sm font-semibold uppercase tracking-widest text-[#ad7130]">Order confirmed</p>
+            <h1 class="mt-2 font-serif text-3xl font-bold">Thank you for your order!</h1>
+            <p class="mt-2 text-[#68746b]">Order #<%= String(order._id).slice(-8).toUpperCase() %> · <%= new Date(order.createdAt).toLocaleString() %></p>
+            <p class="mt-5 inline-block rounded-full bg-[#edf3ed] px-4 py-2 text-sm font-semibold text-[#315b43]"><%= order.status %></p>
+            <% if (notification === 'sent') { %>
+                <p class="mt-5 rounded-xl bg-[#edf3ed] px-4 py-3 text-sm text-[#315b43]">Your order is saved, and its delivery details were emailed to the bookstore.</p>
+            <% } else if (notification === 'failed') { %>
+                <p class="mt-5 rounded-xl bg-[#fff3e8] px-4 py-3 text-sm text-[#8a4b17]">Your order is saved, but the email notification could not be sent. The bookstore can still view your delivery details in its order manager.</p>
+            <% } %>
+            <h2 class="mt-8 font-serif text-xl font-bold">Items</h2>
+            <div class="mt-3 divide-y divide-[#e9e3d9]"><% order.items.forEach(item => { %><div class="flex justify-between gap-4 py-3"><div><p class="font-semibold"><%= item.title %></p><p class="text-sm text-[#68746b]">Qty <%= item.quantity %> · ₹<%= Number(item.price).toLocaleString('en-IN') %> each</p></div><strong>₹<%= Number(item.price * item.quantity).toLocaleString('en-IN') %></strong></div><% }) %></div>
+            <div class="mt-4 flex justify-between border-t border-[#e9e3d9] pt-4 text-lg"><span>Total · Cash on delivery</span><strong>₹<%= Number(order.total).toLocaleString('en-IN') %></strong></div>
+            <h2 class="mt-8 font-serif text-xl font-bold">Delivering to</h2>
+            <p class="mt-2 leading-6 text-[#68746b]"><%= order.shipping.name %><br><%= order.shipping.address %>, <%= order.shipping.city %> <%= order.shipping.postalCode %><br><%= order.shipping.phone %></p>
+            <% if (isAdmin) { %>
+                <a href="/admin/orders" class="mt-7 inline-block font-semibold text-[#234735] underline">Back to all order history</a>
+            <% } else { %>
+                <a href="/orders" class="mt-7 inline-block font-semibold text-[#234735] underline">View my order history</a>
+            <% } %>
+        </div>
+    </main>
+    <%- include('includes/footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24352d">
+    <title>Your bag | The Book Store</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/commerce.css">
+</head>
+<body class="commerce-page">
+    <%- include('includes/nav.ejs') %>
+    <main class="commerce-main">
+        <div class="commerce-heading">
+            <p class="eyebrow eyebrow-dark">Your books</p>
+            <h1>Your cart<span>.</span></h1>
+            <p>Check your items and quantities before checkout.</p>
+        </div>
+
+        <% if(justAdded) { %><p class="commerce-notice" role="status">Added to your bag. Happy reading!</p><% } %>
+        <% if(quantityUpdated) { %><p class="commerce-notice" role="status">Your cart quantity and total have been updated.</p><% } %>
+        <% if(itemRemoved) { %><p class="commerce-notice" role="status">The book was removed from your cart.</p><% } %>
+        <% if(attemptedEmptyCheckout) { %><p class="commerce-notice" role="status">Add a book to your cart before checking out.</p><% } %>
+        <% if(removedUnavailable) { %><p class="commerce-notice" role="status">A book that’s no longer available was removed from your bag.</p><% } %>
+        <% if(items.length) { %>
+            <div class="commerce-layout">
+                <section class="cart-items" aria-label="Books in your bag">
+                    <% items.forEach((item, index) => { %>
+                        <article class="cart-item" data-cart-item data-unit-price="<%= Number(item.book.price) %>">
+                            <div class="cart-cover cover-<%= index % 5 %>">
+                                <% if(item.book.image) { %>
+                                    <img src="<%= item.book.image %>" alt="Cover of <%= item.book.title %>" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                                <% } %>
+                                <span<% if(item.book.image) { %> hidden<% } %>><%= item.book.title %></span>
+                            </div>
+                            <div class="cart-item-details">
+                                <p class="cart-item-category"><%= item.book.category || 'Featured' %></p>
+                                <h2><%= item.book.title %></h2>
+                                <p class="cart-item-author">by <%= item.book.author || 'Unknown author' %></p>
+                                <p class="cart-item-price">₹<%= Number(item.book.price).toLocaleString('en-IN') %></p>
+                            </div>
+                            <form class="quantity-form" action="/cart/update/<%= item.book._id %>" method="post">
+                                <label for="qty-<%= item.book._id %>">Qty</label>
+                                <div class="quantity-stepper">
+                                    <button type="button" class="quantity-step" data-quantity-step="-1" aria-label="Remove one <%= item.book.title %>">−</button>
+                                    <input id="qty-<%= item.book._id %>" type="number" name="quantity" value="<%= item.quantity %>" min="1" max="20" required inputmode="numeric" aria-label="Quantity of <%= item.book.title %>">
+                                    <button type="button" class="quantity-step" data-quantity-step="1" aria-label="Add one <%= item.book.title %>">+</button>
+                                </div>
+                                <button class="update-cart-button" type="submit">Update cart</button>
+                            </form>
+                            <div class="cart-line-total">
+                                <strong data-line-total>₹<%= Number(item.lineTotal).toLocaleString('en-IN') %></strong>
+                                <form action="/cart/remove/<%= item.book._id %>" method="post" onsubmit="return confirm('Remove this book from your cart?')">
+                                    <button class="remove-cart-button" type="submit">Remove</button>
+                                </form>
+                            </div>
+                        </article>
+                    <% }) %>
+                </section>
+                <aside class="order-summary">
+                    <p class="summary-kicker">ORDER SUMMARY</p>
+                    <h2>Order summary</h2>
+                    <div class="summary-row"><span><span data-book-count><%= items.reduce((count, item) => count + item.quantity, 0) %></span> <span data-book-label><%= items.reduce((count, item) => count + item.quantity, 0) === 1 ? 'item' : 'items' %></span></span><span data-summary-subtotal>₹<%= Number(total).toLocaleString('en-IN') %></span></div>
+                    <div class="summary-row"><span>Delivery</span><span>Confirmed with order</span></div>
+                    <div class="summary-total"><span>Total</span><strong data-summary-total>₹<%= Number(total).toLocaleString('en-IN') %></strong></div>
+                    <p class="cart-edit-notice" data-cart-edit-notice hidden>Save your quantity changes with Update cart before checkout.</p>
+                    <a class="checkout-button" data-checkout-link href="/checkout">Continue to checkout <span aria-hidden="true">↗</span></a>
+                    <p class="payment-note">Cash on delivery · Pay when your books arrive</p>
+                    <a class="keep-browsing" href="/books">← Keep browsing</a>
+                </aside>
+            </div>
+        <% } else { %>
+            <section class="empty-bag">
+                <span aria-hidden="true">✳</span>
+                <h2>Your cart is empty.</h2>
+                <p>Add a book and it will show up here.</p>
+                <a class="checkout-button" href="/books">Browse books <span aria-hidden="true">↗</span></a>
+            </section>
+        <% } %>
+    </main>
+    <footer class="home-footer">
+        <a href="/" class="footer-brand">The Book Store<span>Read. Learn. Grow.</span></a>
+        <div class="footer-links"><a href="/books">Books</a><a href="/categories">Categories</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <span class="copyright">© <%= new Date().getFullYear() %> The Book Store</span>
+    </footer>
+    <script src="/cart.js" defer></script>
+</body>
+</html>

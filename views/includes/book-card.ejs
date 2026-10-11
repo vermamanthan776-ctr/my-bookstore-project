@@ -1,0 +1,17 @@
+<article class="group overflow-hidden rounded-2xl border border-[#e9e3d9] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+    <a href="/books/<%= book._id %>" class="block">
+        <img src="<%= book.image %>" alt="Cover of <%= book.title %>" loading="lazy" class="h-64 w-full bg-[#eee8dd] object-cover transition group-hover:scale-[1.02]">
+    </a>
+    <div class="p-5">
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#ad7130]"><%= book.category %></p>
+        <h3 class="mt-2 font-serif text-xl font-bold leading-snug"><a href="/books/<%= book._id %>" class="hover:text-[#ad7130]"><%= book.title %></a></h3>
+        <p class="mt-1 text-sm text-[#68746b]">by <%= book.author %></p>
+        <div class="mt-5 flex items-center justify-between gap-3">
+            <span class="text-lg font-bold text-[#234735]">₹<%= Number(book.price).toLocaleString('en-IN') %></span>
+            <form action="/cart/add/<%= book._id %>" method="post">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="rounded-full bg-[#234735] px-4 py-2 text-sm font-semibold text-white hover:bg-[#345d46]">Add to cart</button>
+            </form>
+        </div>
+    </div>
+</article>

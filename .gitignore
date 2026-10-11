@@ -1,0 +1,11 @@
+node_modules/
+.env
+public/uploads/*
+!public/uploads/.gitkeep
+!public/uploads/img1.jpg
+!public/uploads/img2.jpg
+!public/uploads/1791381286316-image.png
+npm-debug.log*
+dist/
+.env.local
+.env.*local

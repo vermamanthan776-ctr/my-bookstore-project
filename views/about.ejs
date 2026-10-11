@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24352d">
+    <title>About Us | The Book Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/about.css">
+</head>
+
+<body class="about-page">
+    <%- include('includes/nav.ejs') %>
+
+    <main>
+        <section class="about-hero">
+            <div class="about-hero-copy">
+                <p class="eyebrow"><span></span> A place for every reader</p>
+                <h1>For the love<br>of a good <em>story.</em></h1>
+                <p>We’re here for the pages that stay with you, the ideas that open new doors, and the joy of finding your next favorite book.</p>
+                <a class="button button-gold" href="/books">Find your next read <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="about-hero-image">
+                <img src="/uploads/Sunlit Books and Olive Branch.png" alt="A warm, inviting view of our bookstore">
+                <div class="about-image-label"><span>✳</span> OPEN A BOOK. OPEN A WORLD.</div>
+            </div>
+            <div class="about-hero-index">OUR STORY <span>—</span> 01</div>
+        </section>
+
+        <section class="about-story">
+            <div class="story-aside"><span>THE BOOK STORE</span><span>EST. FOR READERS</span></div>
+            <div class="story-copy">
+                <p class="eyebrow eyebrow-dark">A little about us</p>
+                <h2>Books make the world<br>feel <em>bigger.</em></h2>
+                <p>We believe a good book can be a window, a welcome escape, or the beginning of a brand-new idea. The Book Store brings together stories and knowledge from different shelves, so every reader can find something that speaks to them.</p>
+                <p>Whether you’re here to learn, to dream, or simply to enjoy a quiet moment, we’re glad you found your way here. Take a look around. Your next chapter may be waiting.</p>
+                <a class="story-link" href="/categories">Wander through the categories <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="story-ornament" aria-hidden="true"><span>Read</span><i>✳</i><span>Wonder</span><i>✳</i><span>Repeat</span></div>
+        </section>
+
+        <section class="about-values">
+            <div class="values-heading">
+                <p class="eyebrow eyebrow-dark">What we believe</p>
+                <h2>Every reader<br>belongs <em>here.</em></h2>
+            </div>
+            <div class="values-grid">
+                <article class="value-card">
+                    <span class="value-number">01</span>
+                    <span class="value-icon" aria-hidden="true">⌕</span>
+                    <h3>Curiosity comes first</h3>
+                    <p>Follow a question, a feeling, or a passing interest. There’s always something new to discover.</p>
+                </article>
+                <article class="value-card">
+                    <span class="value-number">02</span>
+                    <span class="value-icon" aria-hidden="true">✳</span>
+                    <h3>Stories are for everyone</h3>
+                    <p>From practical ideas to faraway worlds, make space for the reads that feel right for you.</p>
+                </article>
+                <article class="value-card">
+                    <span class="value-number">03</span>
+                    <span class="value-icon" aria-hidden="true">♡</span>
+                    <h3>Take your time</h3>
+                    <p>There’s no rush. Enjoy the search, linger on a page, and let a good story unfold.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="about-cta">
+            <span class="cta-star" aria-hidden="true">✳</span>
+            <p class="eyebrow">Your next chapter is calling</p>
+            <h2>Come find a story<br>to <em>take home.</em></h2>
+            <a class="button button-light" href="/books">Explore the books <span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <a href="/" class="footer-brand">The Book Store<span>Read. Learn. Grow.</span></a>
+        <div class="footer-links"><a href="/books">Books</a><a href="/categories">Categories</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <span class="copyright">© <%= new Date().getFullYear() %> The Book Store</span>
+    </footer>
+</body>
+</html>

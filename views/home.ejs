@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24352d">
+    <title>The Book Store | Find your next favorite</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/home.css">
+</head>
+
+<body class="home-page">
+    <%- include('includes/nav.ejs') %>
+
+    <main>
+        <section class="home-hero">
+            <div class="hero-inner">
+                <div class="hero-copy">
+                    <p class="eyebrow"><span></span> A good book changes everything</p>
+                    <h1>Stories worth<br>slowing down <em>for.</em></h1>
+                    <p class="hero-description">
+                        Find a little wonder on every shelf. Your next favorite read is closer than you think.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-gold" href="/books">Browse all books <span aria-hidden="true">↗</span></a>
+                        <a class="text-link" href="/categories">Explore categories <span aria-hidden="true">→</span></a>
+                    </div>
+                    <div class="reader-note">
+                        <span class="reader-avatars" aria-hidden="true"><i>R</i><i>B</i><i>✳</i></span>
+                        <span>A little corner for every kind of reader</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-label="A welcoming view of our bookstore">
+                    <img src="/uploads/Sunlit Books and Olive Branch.png" alt="A welcoming corner of The Book Store">
+                    <div class="visual-note">
+                        <span class="note-star" aria-hidden="true">✳</span>
+                        <span><strong>Make room</strong><br>for one more story</span>
+                    </div>
+                    <div class="image-caption"><span></span> YOUR NEXT CHAPTER STARTS HERE</div>
+                </div>
+                <div class="hero-bottom-note"><span>01</span> TURN THE PAGE</div>
+            </div>
+        </section>
+
+        <section class="welcome-section">
+            <div class="welcome-copy">
+                <p class="eyebrow eyebrow-dark">More than just books</p>
+                <h2>Your next favorite<br>is <em>waiting.</em></h2>
+            </div>
+            <p class="welcome-description">
+                We believe the right book finds you at just the right time. Explore thoughtful reads, timeless stories
+                and new ideas, all gathered in one welcoming place.
+            </p>
+        </section>
+
+        <section class="category-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow eyebrow-dark">Follow your curiosity</p>
+                    <h2>Where will you <em>wander?</em></h2>
+                </div>
+                <a class="section-link" href="/categories">All categories <span aria-hidden="true">↗</span></a>
+            </div>
+
+            <div class="category-grid">
+                <% const categoryThemes = [
+                    { className: 'category-history', label: 'DISCOVER', symbol: '⌘', description: 'Ideas and stories waiting to be explored' },
+                    { className: 'category-self-help', label: 'GROW', symbol: '✳', description: 'Find your next thought-provoking read' },
+                    { className: 'category-magic', label: 'IMAGINE', symbol: '✦', description: 'Fresh perspectives for curious minds' }
+                ]; %>
+                <% if (homeCategories.length) { %>
+                    <% homeCategories.forEach((category, index) => { const theme = categoryThemes[index]; %>
+                        <a class="category-card <%= theme.className %>" href="/categories/<%= category.encodedName %>">
+                            <span class="category-number">0<%= index + 1 %> / <%= theme.label %></span>
+                            <span class="category-symbol" aria-hidden="true"><%= theme.symbol %></span>
+                            <span class="category-name"><%= category.name %></span>
+                            <span class="category-description"><%= category.count %> <%= category.count === 1 ? 'book' : 'books' %> · <%= theme.description %></span>
+                            <span class="category-arrow" aria-hidden="true">↗</span>
+                        </a>
+                    <% }) %>
+                <% } else { %>
+                    <div class="category-empty">
+                        <p>New shelves are being arranged.</p>
+                        <a href="/categories">Explore all categories <span aria-hidden="true">↗</span></a>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+
+        <section class="collection-banner">
+            <div class="banner-decoration" aria-hidden="true">✳</div>
+            <div>
+                <p class="eyebrow">Your next great read</p>
+                <h2>There’s a whole world<br>on our <em>shelves.</em></h2>
+                <p class="banner-description">Come find the one that feels like it was waiting for you.</p>
+            </div>
+            <a class="button button-light" href="/books">Meet the collection <span aria-hidden="true">↗</span></a>
+        </section>
+
+        <section class="promise-section" aria-label="What makes The Book Store special">
+            <div class="promise-item">
+                <span class="promise-icon" aria-hidden="true">♡</span>
+                <div><h3>Picked with care</h3><p>Thoughtful reads for curious minds.</p></div>
+            </div>
+            <div class="promise-item">
+                <span class="promise-icon" aria-hidden="true">✳</span>
+                <div><h3>For every reader</h3><p>Find a story that feels like yours.</p></div>
+            </div>
+            <div class="promise-item">
+                <span class="promise-icon" aria-hidden="true">⌂</span>
+                <div><h3>A place to belong</h3><p>Your welcoming little book corner.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <a href="/" class="footer-brand">The Book Store<span>Read. Learn. Grow.</span></a>
+        <div class="footer-links"><a href="/books">Books</a><a href="/categories">Categories</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <span class="copyright">© <%= new Date().getFullYear() %> The Book Store</span>
+    </footer>
+</body>
+</html>

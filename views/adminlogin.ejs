@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24352d">
+    <title>Admin Login | The Book Store</title>
+    <link rel="stylesheet" href="/home.css">
+    <style>
+        .admin-login-page {
+            min-height: 100vh;
+            margin: 0;
+            background: #f7f5ef;
+            color: #26342d;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        .admin-login-main {
+            display: grid;
+            min-height: 70vh;
+            padding: 48px 20px;
+            place-items: center;
+        }
+
+        .admin-login-card {
+            width: min(100%, 410px);
+            padding: 32px;
+            border: 1px solid #e7e4da;
+            background: #fffefa;
+        }
+
+        .admin-login-kicker {
+            margin: 0 0 9px;
+            color: #8a7040;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .admin-login-card h1 {
+            margin: 0;
+            color: #24352d;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 33px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .admin-login-description {
+            margin: 9px 0 23px;
+            color: #788078;
+            font-size: 11px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .admin-login-error {
+            margin: 0 0 17px;
+            padding: 11px 12px;
+            border-left: 3px solid #a34e40;
+            background: #f8eeea;
+            color: #793d33;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .admin-login-card label {
+            display: block;
+            margin-top: 14px;
+            color: #455348;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .admin-login-card input {
+            display: block;
+            width: 100%;
+            min-height: 42px;
+            margin-top: 6px;
+            padding: 0 11px;
+            border: 1px solid #dedfd6;
+            border-radius: 0;
+            outline: none;
+            background: #fffefa;
+            color: #26342d;
+            font: inherit;
+            font-size: 12px;
+        }
+
+        .admin-login-card input:focus {
+            border-color: #78966f;
+            box-shadow: 0 0 0 2px rgb(120 150 111 / 16%);
+        }
+
+        .admin-login-submit {
+            width: 100%;
+            min-height: 43px;
+            margin-top: 21px;
+            border: 1px solid #315b43;
+            background: #315b43;
+            color: #fffefa;
+            cursor: pointer;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .admin-login-submit:hover {
+            background: #244832;
+        }
+
+        .admin-login-help {
+            margin: 15px 0 0;
+            color: #788078;
+            font-size: 10px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .admin-login-help code {
+            color: #315b43;
+            font-size: 10px;
+        }
+
+        @media (max-width: 580px) {
+            .admin-login-main {
+                min-height: 65vh;
+                padding: 36px 17px;
+            }
+
+            .admin-login-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body class="admin-login-page">
+    <%- include('includes/nav.ejs') %>
+
+    <main class="admin-login-main">
+        <form action="/admin/login" method="POST" class="admin-login-card">
+            <p class="admin-login-kicker">The Book Store · Staff</p>
+            <h1>Admin login</h1>
+            <p class="admin-login-description">Sign in with the administrator credentials configured for this store.</p>
+
+            <% if(error) { %>
+                <p class="admin-login-error" role="alert"><%= error %></p>
+            <% } %>
+
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" required maxlength="100" autocomplete="username" spellcheck="false" autofocus>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required maxlength="200" autocomplete="current-password">
+
+            <button type="submit" class="admin-login-submit">Sign in to admin</button>
+            <p class="admin-login-help">Use the <code>ADMIN_USERNAME</code> and <code>ADMIN_PASSWORD</code> values from your <code>.env</code> file.</p>
+        </form>
+    </main>
+</body>
+</html>

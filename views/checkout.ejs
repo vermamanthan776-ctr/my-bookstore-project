@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24352d">
+    <title>Checkout | The Book Store</title>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/commerce.css">
+</head>
+<body class="commerce-page">
+    <%- include('includes/nav.ejs') %>
+    <main class="commerce-main checkout-main">
+        <div class="commerce-heading">
+            <p class="eyebrow eyebrow-dark">Checkout</p>
+            <h1>Delivery details<span>.</span></h1>
+            <p>Enter your address and phone number to place the order.</p>
+        </div>
+        <div class="commerce-layout">
+            <form action="/checkout" method="post" class="checkout-form">
+                <p class="summary-kicker">DELIVERY DETAILS</p>
+                <h2>Where should we send your books?</h2>
+                <label>Full name<input name="name" value="<%= currentUser.name %>" required minlength="2" maxlength="100" autocomplete="name" placeholder="Your name"></label>
+                <label>Phone number<input name="phone" type="tel" required minlength="7" maxlength="30" autocomplete="tel" placeholder="A number the delivery person can reach"></label>
+                <label>Street address<input name="address" required maxlength="200" autocomplete="street-address" placeholder="House number and street"></label>
+                <div class="checkout-form-row">
+                    <label>City<input name="city" required maxlength="100" autocomplete="address-level2" placeholder="City"></label>
+                    <label>PIN / postal code<input name="postalCode" required maxlength="20" autocomplete="postal-code" placeholder="Postal code"></label>
+                </div>
+                <div class="cod-note"><span aria-hidden="true">♡</span><div><strong>Cash on delivery</strong><p>Pay when your books arrive. No online payment needed.</p></div></div>
+                <button class="checkout-button place-order" type="submit">Place my order <span aria-hidden="true">↗</span></button>
+            </form>
+            <aside class="order-summary checkout-summary">
+                <p class="summary-kicker">ORDER SUMMARY</p>
+                <h2>Your items</h2>
+                <% items.forEach(item => { %>
+                    <div class="checkout-book-row"><div><strong><%= item.book.title %></strong><span>Qty <%= item.quantity %></span></div><strong>₹<%= Number(item.lineTotal).toLocaleString('en-IN') %></strong></div>
+                <% }) %>
+                <div class="summary-total"><span>Total due on delivery</span><strong>₹<%= Number(total).toLocaleString('en-IN') %></strong></div>
+                <a class="keep-browsing" href="/cart">← Back to your bag</a>
+            </aside>
+        </div>
+    </main>
+    <footer class="home-footer">
+        <a href="/" class="footer-brand">The Book Store<span>Read. Learn. Grow.</span></a>
+        <div class="footer-links"><a href="/books">Books</a><a href="/categories">Categories</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <span class="copyright">© <%= new Date().getFullYear() %> The Book Store</span>
+    </footer>
+</body>
+</html>

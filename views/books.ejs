@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#24352d">
+    <title>Our Books | The Book Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/books.css">
+</head>
+
+<body class="books-page">
+    <%- include('includes/nav.ejs') %>
+
+    <main>
+        <section class="books-hero">
+            <div class="books-hero-inner">
+                <div>
+                    <p class="eyebrow"><span></span> Find your next read</p>
+                    <h1>Something good<br>to <em>read.</em></h1>
+                    <p class="books-hero-description">Browse the books in our store. Add a title to your bag, or buy it now.</p>
+                    <a class="button button-gold" href="#book-collection">Browse the books <span aria-hidden="true">↓</span></a>
+                </div>
+                <div class="books-hero-art" aria-hidden="true">
+                    <div class="books-orbit"></div>
+                    <div class="shelf-book shelf-book-one"><span>STORIES</span><strong>FOR<br>THE SOUL</strong><i>A collection</i></div>
+                    <div class="shelf-book shelf-book-two"><span>THE ART OF</span><strong>WONDER</strong><i>Read slowly</i></div>
+                    <div class="shelf-book shelf-book-three"><span>✳</span><strong>NEW<br>CHAPTERS</strong></div>
+                </div>
+                <div class="books-count-note"><span></span><%= books.length %> books to discover</div>
+            </div>
+        </section>
+
+        <section id="book-collection" class="books-collection">
+            <div class="books-heading">
+                <div>
+                    <p class="eyebrow eyebrow-dark">Books in our store</p>
+                    <h2>Our collection</h2>
+                </div>
+                <p>Browse the books currently available.</p>
+            </div>
+
+            <% if(isAdmin) { %>
+                <div class="admin-toolbar">
+                    <span>You’re managing the book collection.</span>
+                    <div>
+                        <a href="/books/new" class="admin-add">＋ Add a book</a>
+                        <a href="/admin/logout" class="admin-logout">Log out</a>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if(books.length) { %>
+                <div class="books-grid">
+                    <% books.forEach((book, index) => { %>
+                        <article class="library-card">
+                            <a class="library-cover" href="/categories/<%= encodeURIComponent(book.category || '') %>" aria-label="Explore <%= book.category || 'book' %> books">
+                                <% if(book.image) { %>
+                                    <img src="<%= book.image %>" alt="Cover of <%= book.title %>" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                                <% } %>
+                                <span class="generated-cover cover-<%= index % 5 %>"<% if(book.image) { %> hidden<% } %>>
+                                    <span class="cover-star" aria-hidden="true">✳</span>
+                                    <span class="generated-title"><%= book.title %></span>
+                                    <span class="generated-author"><%= book.author || 'The Book Store' %></span>
+                                </span>
+                                <span class="cover-category"><%= book.category || 'Featured' %></span>
+                            </a>
+                            <div class="library-card-content">
+                                <div class="library-meta">
+                                    <span class="library-category"><%= book.category || 'Featured' %></span>
+                                    <span class="library-price">₹<%= Number(book.price || 0).toLocaleString('en-IN') %></span>
+                                </div>
+                                <h2><%= book.title %></h2>
+                                <p class="library-author">by <%= book.author || 'Unknown author' %></p>
+                                <div class="library-card-bottom">
+                                    <div class="library-actions">
+                                        <form action="/cart/add/<%= book._id %>" method="POST">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button class="add-to-cart" type="submit">Add to cart</button>
+                                        </form>
+                                        <form action="/cart/buy/<%= book._id %>" method="POST">
+                                            <button class="buy-now" type="submit">Buy now</button>
+                                        </form>
+                                    </div>
+                                    <% if(isAdmin) { %>
+                                        <div class="library-admin-actions">
+                                            <form action="/books/edit/<%= book._id %>" method="GET">
+                                                <button type="submit" aria-label="Edit <%= book.title %>">Edit</button>
+                                            </form>
+                                            <form action="/books/delete/<%= book._id %>" method="POST" onsubmit="return confirm('Delete this book from the collection?')">
+                                                <button class="delete-book" type="submit" aria-label="Delete <%= book.title %>">Delete</button>
+                                            </form>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="books-empty">
+                    <span aria-hidden="true">✳</span>
+                    <h2>A fresh shelf, ready for stories.</h2>
+                    <p>There aren’t any books here yet. Come back soon to see what’s new.</p>
+                    <% if(isAdmin) { %><a class="button button-gold" href="/books/new">Add the first book <span aria-hidden="true">↗</span></a><% } %>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="books-bottom-cta">
+            <div><p class="eyebrow">Looking for something specific?</p><h2>Browse by<br><em>category.</em></h2></div>
+            <a class="button button-light" href="/categories">See categories <span aria-hidden="true">↗</span></a>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <a href="/" class="footer-brand">The Book Store<span>Read. Learn. Grow.</span></a>
+        <div class="footer-links"><a href="/books">Books</a><a href="/categories">Categories</a><a href="/about">About</a><a href="/contact">Contact</a></div>
+        <span class="copyright">© <%= new Date().getFullYear() %> The Book Store</span>
+    </footer>
+</body>
+</html>
